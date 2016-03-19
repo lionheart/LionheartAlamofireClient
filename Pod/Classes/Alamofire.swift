@@ -8,7 +8,7 @@ protocol EndpointEnum: RawRepresentable {
     static var BaseURL: String { get }
 }
 
-enum APIRouter<T: EndpointEnum where T.RawValue == StringLiteralType>: URLRequestConvertible, StringLiteralConvertible {
+enum Router<T: EndpointEnum where T.RawValue == StringLiteralType>: URLRequestConvertible, StringLiteralConvertible {
     typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     typealias UnicodeScalarLiteralType = StringLiteralType
 
