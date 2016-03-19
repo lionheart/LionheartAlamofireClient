@@ -1,16 +1,16 @@
 import UIKit
 import Alamofire
 
-typealias JSONDictionary = [String: AnyObject]
+public typealias JSONDictionary = [String: AnyObject]
 
-protocol EndpointEnum: RawRepresentable {
+public protocol AlamofireEndpoint: RawRepresentable {
     typealias RawValue = StringLiteralType
     static var BaseURL: String { get }
 }
 
-enum Router<T: EndpointEnum where T.RawValue == StringLiteralType>: URLRequestConvertible, StringLiteralConvertible {
-    typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
-    typealias UnicodeScalarLiteralType = StringLiteralType
+public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiteralType>: URLRequestConvertible, StringLiteralConvertible {
+    public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
+    public typealias UnicodeScalarLiteralType = StringLiteralType
 
     case POST(T, parameters: JSONDictionary?)
     case POSTJSON(T, JSONDictionary)
@@ -69,13 +69,14 @@ enum Router<T: EndpointEnum where T.RawValue == StringLiteralType>: URLRequestCo
         }
     }
 
-    var URLRequest: NSMutableURLRequest {
+    public var URLRequest: NSMutableURLRequest {
         var URL = NSURL(string: T.self.BaseURL)!
         URL = URL.URLByAppendingPathComponent(endpoint.rawValue)
         let request = NSMutableURLRequest(URL: URL)
 
         request.HTTPMethod = HTTPMethod
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
         return encoding.encode(request, parameters: parameters).0
     }
 
@@ -83,15 +84,46 @@ enum Router<T: EndpointEnum where T.RawValue == StringLiteralType>: URLRequestCo
         self = .GET(T(rawValue: stringValue)!)
     }
 
-    init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+    public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
         self.init(value)
     }
 
-    init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+    public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(value)
     }
     
-    init(stringLiteral value: StringLiteralType) {
+    public init(stringLiteral value: StringLiteralType) {
         self.init(value)
+    }
+
+    /**
+
+     ```
+     Router<Endpoint>.GET(.Users).responseJSON { (response: [JSONDictionary]?) in
+
+     }
+     ```
+
+     */
+    public func responseJSON<T>(completion: T -> Void) throws {
+        Manager.sharedInstance.request(self).responseJSON { response in
+            switch response.result {
+            case .Success(let value):
+                if let value = value as? T {
+                    completion(value)
+                }
+
+            case .Failure:
+                break
+            }
+        }
+    }
+}
+
+public class AlamofireClient<T: AlamofireEndpoint where T.RawValue == StringLiteralType> {
+    public typealias Router = AlamofireRouter<T>
+
+    static func request(URLRequest: Router) -> Request {
+        return Manager.sharedInstance.request(URLRequest)
     }
 }
