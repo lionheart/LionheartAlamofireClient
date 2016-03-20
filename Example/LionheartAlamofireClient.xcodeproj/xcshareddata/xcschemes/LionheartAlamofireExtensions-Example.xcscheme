@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "LionheartAlamofireExtensions_Example.app"
-               BlueprintName = "LionheartAlamofireExtensions_Example"
-               ReferencedContainer = "container:LionheartAlamofireExtensions.xcodeproj">
+               BuildableName = "LionheartAlamofireClient_Example.app"
+               BlueprintName = "LionheartAlamofireClient_Example"
+               ReferencedContainer = "container:LionheartAlamofireClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "LionheartAlamofireExtensions_Tests.xctest"
-               BlueprintName = "LionheartAlamofireExtensions_Tests"
-               ReferencedContainer = "container:LionheartAlamofireExtensions.xcodeproj">
+               BuildableName = "LionheartAlamofireClient_Tests.xctest"
+               BlueprintName = "LionheartAlamofireClient_Tests"
+               ReferencedContainer = "container:LionheartAlamofireClient.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "LionheartAlamofireExtensions_Tests.xctest"
-               BlueprintName = "LionheartAlamofireExtensions_Tests"
-               ReferencedContainer = "container:LionheartAlamofireExtensions.xcodeproj">
+               BuildableName = "LionheartAlamofireClient_Tests.xctest"
+               BlueprintName = "LionheartAlamofireClient_Tests"
+               ReferencedContainer = "container:LionheartAlamofireClient.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -57,9 +57,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "LionheartAlamofireExtensions_Example.app"
-            BlueprintName = "LionheartAlamofireExtensions_Example"
-            ReferencedContainer = "container:LionheartAlamofireExtensions.xcodeproj">
+            BuildableName = "LionheartAlamofireClient_Example.app"
+            BlueprintName = "LionheartAlamofireClient_Example"
+            ReferencedContainer = "container:LionheartAlamofireClient.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "LionheartAlamofireExtensions_Example.app"
-            BlueprintName = "LionheartAlamofireExtensions_Example"
-            ReferencedContainer = "container:LionheartAlamofireExtensions.xcodeproj">
+            BuildableName = "LionheartAlamofireClient_Example.app"
+            BlueprintName = "LionheartAlamofireClient_Example"
+            ReferencedContainer = "container:LionheartAlamofireClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -99,9 +99,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "LionheartAlamofireExtensions_Example.app"
-            BlueprintName = "LionheartAlamofireExtensions_Example"
-            ReferencedContainer = "container:LionheartAlamofireExtensions.xcodeproj">
+            BuildableName = "LionheartAlamofireClient_Example.app"
+            BlueprintName = "LionheartAlamofireClient_Example"
+            ReferencedContainer = "container:LionheartAlamofireClient.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
