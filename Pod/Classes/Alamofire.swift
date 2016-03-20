@@ -105,7 +105,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
      ```
 
      */
-    public func responseJSON<T>(completion: T -> Void) throws {
+    public func responseJSON<T>(completion: T -> Void) {
         Manager.sharedInstance.request(self).responseJSON { response in
             switch response.result {
             case .Success(let value):
