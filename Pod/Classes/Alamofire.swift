@@ -6,66 +6,131 @@ public typealias JSONDictionary = [String: AnyObject]
 public protocol AlamofireEndpoint: RawRepresentable {
     typealias RawValue = StringLiteralType
     static var BaseURL: String { get }
+    static var DefaultContentType: String { get }
+}
+
+public enum AlamofireRequestParameter: DictionaryLiteralConvertible {
+    public typealias Key = String
+    public typealias Value = AnyObject
+
+    case JSONBody(JSONDictionary)
+    case URLParameters(JSONDictionary)
+    case ContentType(String)
+
+    public init(dictionaryLiteral elements: (Key, Value)...) {
+        var parameters: JSONDictionary = [:]
+        for (key, value) in elements {
+            parameters[key] = value
+        }
+        self = .URLParameters(parameters)
+    }
 }
 
 public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiteralType>: URLRequestConvertible, StringLiteralConvertible {
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     public typealias UnicodeScalarLiteralType = StringLiteralType
 
-    case POST(T, parameters: JSONDictionary?)
-    case POSTJSON(T, JSONDictionary)
+    case POST(T)
     case GET(T)
-    case GETParameters(T, JSONDictionary)
+    case PATCH(T)
+    case HEAD(T)
+
+    indirect case MethodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
 
     var endpoint: T {
         switch self {
-        case .POST(let endpoint, _):
+        case .POST(let endpoint):
             return endpoint
 
         case .GET(let endpoint):
             return endpoint
 
-        case .GETParameters(let endpoint, _):
+        case .PATCH(let endpoint):
             return endpoint
 
-        case .POSTJSON(let endpoint, _):
+        case .HEAD(let endpoint):
             return endpoint
+
+        case .MethodWithRequestParameters(let method, _):
+            return method.endpoint
+        }
+    }
+
+    var contentType: String {
+        switch self {
+        case .MethodWithRequestParameters(let router, let requestParameters):
+            for parameter in requestParameters {
+                if case .ContentType(let contentType) = parameter {
+                    return contentType
+                }
+            }
+
+            return router.contentType
+
+        default:
+            return T.DefaultContentType
         }
     }
 
     var HTTPMethod: String {
         switch self {
-        case .POST, .POSTJSON:
+        case .POST:
             return "POST"
 
-        case .GET, .GETParameters:
+        case .GET:
             return "GET"
+
+        case .PATCH:
+            return "PATCH"
+
+        case .HEAD:
+            return "HEAD"
+
+        case .MethodWithRequestParameters(let router, _):
+            return router.HTTPMethod
         }
     }
 
     var parameters: JSONDictionary? {
         switch self {
-        case .POST(_, let parameters):
-            return parameters
+        case .MethodWithRequestParameters(_, let requestParameters):
+            for parameter in requestParameters {
+                switch parameter {
+                case .JSONBody(let parameters):
+                    return parameters
 
-        case .GET(_):
+                case .URLParameters(let parameters):
+                    return parameters
+
+                default:
+                    break
+                }
+            }
+
+            fallthrough
+
+        default:
             return nil
-
-        case .GETParameters(_, let parameters):
-            return parameters
-
-        case .POSTJSON(_, let parameters):
-            return parameters
         }
     }
 
     var encoding: ParameterEncoding {
         switch self {
-        case .POST, .GET, .GETParameters:
-            return ParameterEncoding.URL
+        case .MethodWithRequestParameters(let router, let requestParameters):
+            for parameter in requestParameters {
+                switch parameter {
+                case .JSONBody:
+                    return ParameterEncoding.JSON
 
-        case .POSTJSON:
-            return ParameterEncoding.JSON
+                default:
+                    break
+                }
+            }
+
+            return router.encoding
+
+        default:
+            return ParameterEncoding.URL
         }
     }
 
@@ -75,8 +140,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
         let request = NSMutableURLRequest(URL: URL)
 
         request.HTTPMethod = HTTPMethod
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+        request.setValue(contentType, forHTTPHeaderField: "Content-Type")
         return encoding.encode(request, parameters: parameters).0
     }
 
@@ -91,9 +155,25 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
     public init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
         self.init(value)
     }
-    
+
     public init(stringLiteral value: StringLiteralType) {
         self.init(value)
+    }
+
+    // MARK: -
+
+    public func with(parameters: JSONDictionary) -> AlamofireRouter {
+        return with(.URLParameters(parameters))
+    }
+
+    public func with(parameters: AlamofireRequestParameter...) -> AlamofireRouter {
+        if case AlamofireRouter.MethodWithRequestParameters(let router, var requestParameters) = self {
+            requestParameters.appendContentsOf(parameters)
+            return AlamofireRouter.MethodWithRequestParameters(router, requestParameters)
+        }
+        else {
+            return AlamofireRouter.MethodWithRequestParameters(self, parameters)
+        }
     }
 
     /**
@@ -122,7 +202,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
 public class AlamofireClient<T: AlamofireEndpoint where T.RawValue == StringLiteralType> {
     public typealias Router = AlamofireRouter<T>
-
+    
     static func request(URLRequest: Router) -> Request {
         return Manager.sharedInstance.request(URLRequest)
     }
