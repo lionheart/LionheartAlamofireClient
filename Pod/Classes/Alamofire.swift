@@ -3,10 +3,17 @@ import Alamofire
 
 public typealias JSONDictionary = [String: AnyObject]
 
+public enum AlamofireAuthentication {
+    case Basic(String, String)
+    case None
+}
+
 public protocol AlamofireEndpoint: RawRepresentable {
     typealias RawValue = StringLiteralType
     static var BaseURL: String { get }
     static var DefaultContentType: String { get }
+
+    var Authentication: AlamofireAuthentication { get }
 }
 
 public enum AlamofireRequestParameter: DictionaryLiteralConvertible {
@@ -135,12 +142,30 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
     }
 
     public var URLRequest: NSMutableURLRequest {
+        return _URLRequest()
+    }
+
+    public func _URLRequest() -> NSMutableURLRequest {
         var URL = NSURL(string: T.self.BaseURL)!
         URL = URL.URLByAppendingPathComponent(endpoint.rawValue)
         let request = NSMutableURLRequest(URL: URL)
 
         request.HTTPMethod = HTTPMethod
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
+
+        switch endpoint.Authentication {
+        case .Basic(let username, let password):
+            var base64Credentials: String!
+            var dispatchToken: dispatch_once_t = 0
+            dispatch_once(&dispatchToken) {
+                let credentialData = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
+                base64Credentials = credentialData.base64EncodedStringWithOptions([])
+            }
+            request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+
+        case .None:
+            break
+        }
         return encoding.encode(request, parameters: parameters).0
     }
 
