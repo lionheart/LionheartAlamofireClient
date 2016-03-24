@@ -9,7 +9,7 @@ public enum AlamofireAuthentication {
 }
 
 public protocol AlamofireEndpoint: RawRepresentable {
-    typealias RawValue = StringLiteralType
+    associatedtype RawValue = StringLiteralType
     static var BaseURL: String { get }
     static var DefaultContentType: String { get }
 
@@ -42,6 +42,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
     case PATCH(T)
     case HEAD(T)
 
+    indirect case Pattern(AlamofireRouter, [AnyObject])
     indirect case MethodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
 
     var endpoint: T {
@@ -60,6 +61,29 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
         case .MethodWithRequestParameters(let method, _):
             return method.endpoint
+
+        case .Pattern(let router, _):
+            return router.endpoint
+        }
+    }
+
+    var path: String {
+        switch self {
+        case .Pattern(let router, var parameters):
+            var path = ""
+            for character in endpoint.rawValue.characters {
+                if character == Character("?") {
+                    let value = parameters.removeFirst()
+                    path += String(value)
+                }
+                else {
+                    character.writeTo(&path)
+                }
+            }
+            return path
+
+        default:
+            return endpoint.rawValue
         }
     }
 
@@ -94,6 +118,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
             return "HEAD"
 
         case .MethodWithRequestParameters(let router, _):
+            return router.HTTPMethod
+
+        case .Pattern(let router, _):
             return router.HTTPMethod
         }
     }
@@ -147,7 +174,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     public func _URLRequest() -> NSMutableURLRequest {
         var URL = NSURL(string: T.self.BaseURL)!
-        URL = URL.URLByAppendingPathComponent(endpoint.rawValue)
+        URL = URL.URLByAppendingPathComponent(path)
         let request = NSMutableURLRequest(URL: URL)
 
         request.HTTPMethod = HTTPMethod
