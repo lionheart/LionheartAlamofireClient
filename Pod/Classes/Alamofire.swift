@@ -79,7 +79,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     var path: String {
         switch self {
-        case .Pattern(let router, var parameters):
+        case .Pattern(_, var parameters):
             var path = ""
             for character in endpoint.rawValue.characters {
                 if character == Character("?") {
