@@ -5,6 +5,7 @@ public typealias JSONDictionary = [String: AnyObject]
 
 public enum AlamofireAuthentication {
     case Basic(String, String)
+    case Bearer(String)
     case None
 }
 
@@ -23,6 +24,7 @@ public enum AlamofireRequestParameter: DictionaryLiteralConvertible {
     case JSONBody(JSONDictionary)
     case URLParameters(JSONDictionary)
     case ContentType(String)
+    case Authentication(AlamofireAuthentication)
 
     public init(dictionaryLiteral elements: (Key, Value)...) {
         var parameters: JSONDictionary = [:]
@@ -41,6 +43,8 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
     case GET(T)
     case PATCH(T)
     case HEAD(T)
+    case PUT(T)
+    case DELETE(T)
 
     indirect case Pattern(AlamofireRouter, [AnyObject])
     indirect case MethodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
@@ -57,6 +61,12 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
             return endpoint
 
         case .HEAD(let endpoint):
+            return endpoint
+
+        case .PUT(let endpoint):
+            return endpoint
+
+        case .DELETE(let endpoint):
             return endpoint
 
         case .MethodWithRequestParameters(let method, _):
@@ -117,6 +127,12 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
         case .HEAD:
             return "HEAD"
 
+        case .PUT:
+            return "PUT"
+
+        case .DELETE:
+            return "DELETE"
+
         case .MethodWithRequestParameters(let router, _):
             return router.HTTPMethod
 
@@ -146,6 +162,26 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
         default:
             return nil
         }
+    }
+
+    var authentication: AlamofireAuthentication {
+        switch self {
+        case .MethodWithRequestParameters(_, let requestParameters):
+            for parameter in requestParameters {
+                switch parameter {
+                case .Authentication(let authentication):
+                    return authentication
+
+                default:
+                    break
+                }
+            }
+
+        default:
+            break
+        }
+
+        return endpoint.Authentication
     }
 
     var encoding: ParameterEncoding {
@@ -180,7 +216,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
         request.HTTPMethod = HTTPMethod
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
 
-        switch endpoint.Authentication {
+        switch authentication {
         case .Basic(let username, let password):
             var base64Credentials: String!
             var dispatchToken: dispatch_once_t = 0
@@ -189,6 +225,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                 base64Credentials = credentialData.base64EncodedStringWithOptions([])
             }
             request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+
+        case .Bearer(let token):
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
         case .None:
             break
