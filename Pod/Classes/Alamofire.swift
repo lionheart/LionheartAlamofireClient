@@ -1,6 +1,10 @@
 import UIKit
 import Alamofire
 
+enum APIError: ErrorType {
+    case Unspecified
+}
+
 public typealias JSONDictionary = [String: AnyObject]
 
 public enum AlamofireAuthentication {
@@ -46,7 +50,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
     case PUT(T)
     case DELETE(T)
 
-    indirect case Pattern(AlamofireRouter, [AnyObject])
+    indirect case Pattern(AlamofireRouter, [String])
     indirect case MethodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
 
     var endpoint: T {
@@ -92,6 +96,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
             }
             return path
 
+        case .MethodWithRequestParameters(let router, _):
+            return router.path
+
         default:
             return endpoint.rawValue
         }
@@ -106,6 +113,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                 }
             }
 
+            return router.contentType
+
+        case .Pattern(let router, _):
             return router.contentType
 
         default:
@@ -143,6 +153,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     var parameters: JSONDictionary? {
         switch self {
+        case .Pattern(let router, _):
+            return router.parameters
+
         case .MethodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
@@ -156,7 +169,6 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                     break
                 }
             }
-
             fallthrough
 
         default:
@@ -176,6 +188,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                     break
                 }
             }
+
+        case .Pattern(let router, _):
+            return router.authentication
 
         default:
             break
@@ -197,6 +212,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                 }
             }
 
+            return router.encoding
+
+        case .Pattern(let router, _):
             return router.encoding
 
         default:
@@ -232,6 +250,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
         case .None:
             break
         }
+
         return encoding.encode(request, parameters: parameters).0
     }
 
@@ -276,15 +295,15 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
      ```
 
      */
-    public func responseJSON<T>(completion: T -> Void) {
+    public func responseJSON<T>(success: T -> Void) {
         Manager.sharedInstance.request(self).responseJSON { response in
             switch response.result {
             case .Success(let value):
                 if let value = value as? T {
-                    completion(value)
+                    success(value)
                 }
 
-            case .Failure:
+            case .Failure(let error):
                 break
             }
         }
