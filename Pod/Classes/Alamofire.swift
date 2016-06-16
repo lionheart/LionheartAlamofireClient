@@ -303,7 +303,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                     success(value)
                 }
 
-            case .Failure(let error):
+            case .Failure:
                 break
             }
         }
