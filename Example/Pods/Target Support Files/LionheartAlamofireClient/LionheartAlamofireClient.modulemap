@@ -1,0 +1,6 @@
+framework module LionheartAlamofireClient {
+  umbrella header "LionheartAlamofireClient-umbrella.h"
+
+  export *
+  module * { export * }
+}

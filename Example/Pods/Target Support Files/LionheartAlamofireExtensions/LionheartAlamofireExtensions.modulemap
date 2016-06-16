@@ -1,6 +1,0 @@
-framework module LionheartAlamofireExtensions {
-  umbrella header "LionheartAlamofireExtensions-umbrella.h"
-
-  export *
-  module * { export * }
-}

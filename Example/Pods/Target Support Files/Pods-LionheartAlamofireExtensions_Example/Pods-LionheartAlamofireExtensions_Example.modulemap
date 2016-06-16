@@ -1,6 +1,0 @@
-framework module Pods_LionheartAlamofireExtensions_Example {
-  umbrella header "Pods-LionheartAlamofireExtensions_Example-umbrella.h"
-
-  export *
-  module * { export * }
-}
