@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "LionheartAlamofireClient"
-  s.version          =  "1.3.2"
+  s.version          =  "1.3.3"
   s.summary          = "A simple class that helps manage interaction with remote APIs using Alamofire."
   s.description      = "A simple class that helps manage interaction with remote APIs using Alamofire."
   s.homepage         = "https://github.com/lionheart/LionheartAlamofireClient"
