@@ -18,7 +18,7 @@
 import UIKit
 import Alamofire
 
-enum APIError: ErrorType {
+public enum APIError: ErrorType {
     case Unspecified
 }
 
@@ -30,11 +30,15 @@ public enum AlamofireAuthentication {
     case None
 }
 
+public protocol AlamofireManagerSingleton: class {
+    static var sharedManager: Manager { get }
+}
+
 public protocol AlamofireEndpoint: RawRepresentable {
     associatedtype RawValue = StringLiteralType
     static var BaseURL: String { get }
     static var DefaultContentType: String { get }
-
+    static var CustomManager: AlamofireManagerSingleton.Type? { get }
     var Authentication: AlamofireAuthentication { get }
 }
 
@@ -310,18 +314,19 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
      }
      ```
-
      */
-    public func responseJSON<T>(success: T -> Void) {
-        Manager.sharedInstance.request(self).responseJSON { response in
+    public func responseJSON<T>(success: T -> Void, failure: APIError -> Void) {
+        let request = AlamofireClient.request(self).responseJSON { response in
             switch response.result {
             case .Success(let value):
                 if let value = value as? T {
                     success(value)
+                } else {
+                    failure(APIError.Unspecified)
                 }
 
             case .Failure:
-                break
+                failure(APIError.Unspecified)
             }
         }
     }
@@ -329,8 +334,12 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
 public class AlamofireClient<T: AlamofireEndpoint where T.RawValue == StringLiteralType> {
     public typealias Router = AlamofireRouter<T>
-    
+
     static func request(URLRequest: Router) -> Request {
-        return Manager.sharedInstance.request(URLRequest)
+        if let Manager = T.CustomManager {
+            return Manager.sharedManager.request(URLRequest)
+        } else {
+            return Manager.sharedInstance.request(URLRequest)
+        }
     }
 }
