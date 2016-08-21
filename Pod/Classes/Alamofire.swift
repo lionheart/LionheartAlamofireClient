@@ -358,7 +358,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 public class AlamofireClient<T: AlamofireEndpoint where T.RawValue == String> {
     public typealias Router = AlamofireRouter<T>
 
-    static var theManager: Manager {
+    public static var theManager: Manager {
         if let Manager = T.CustomManager {
             return Manager.sharedManager
         } else {
@@ -366,11 +366,11 @@ public class AlamofireClient<T: AlamofireEndpoint where T.RawValue == String> {
         }
     }
 
-    static func upload(URLRequest: Router, multipartFormData: MultipartFormData -> Void, completion: Manager.MultipartFormDataEncodingResult -> Void) -> Void {
+    public static func upload(URLRequest: Router, multipartFormData: MultipartFormData -> Void, completion: Manager.MultipartFormDataEncodingResult -> Void) -> Void {
         theManager.upload(URLRequest, multipartFormData: multipartFormData, encodingCompletion: completion)
     }
 
-    static func request(URLRequest: Router) -> Request {
+    public static func request(URLRequest: Router) -> Request {
         return theManager.request(URLRequest)
     }
 }
