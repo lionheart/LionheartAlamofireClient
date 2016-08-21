@@ -225,7 +225,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
     @available(*, deprecated=1.0, message="No longer in use.")
     var body: String? {
         switch self {
-        case .MethodWithRequestParameters(let router, let requestParameters):
+        case .MethodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
                 case .Body(let s):
@@ -339,7 +339,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
      ```
      */
     public func responseJSON<T>(success: T -> Void, failure: APIError -> Void) {
-        let request = AlamofireClient.request(self).responseJSON { response in
+        AlamofireClient.request(self).responseJSON { response in
             switch response.result {
             case .Success(let value):
                 if let value = value as? T {
