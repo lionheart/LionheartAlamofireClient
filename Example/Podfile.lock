@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.0.0-beta.2)
-  - LionheartAlamofireClient (1.3.7):
+  - LionheartAlamofireClient (1.4.0):
     - Alamofire
   - Nimble (5.0.0-alpha.30p1)
   - Quick (0.9.3)
@@ -37,10 +37,10 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 7f837be535fe424db2b87d9117f13836939719ca
-  LionheartAlamofireClient: 8752ea55736f3149f77ce494e0cf9556207416c9
+  LionheartAlamofireClient: 7c2b973e842dcbb3b11cf6a4d4c6b82ee96cd781
   Nimble: c5b995b4cd57789ec44b0cfb79640fc00e61a8c7
   Quick: 31fb576b6cbb6b028cc5e0016e4366accbb346f5
 
 PODFILE CHECKSUM: 5613e8800152fa11e7c120b28fa4f0ce0e9db36f
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.beta.2
