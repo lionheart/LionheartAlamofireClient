@@ -18,20 +18,20 @@
 import UIKit
 import Alamofire
 
-public enum APIError: ErrorType {
-    case Unspecified
+public enum APIError: Error {
+    case unspecified
 }
 
 public typealias JSONDictionary = [String: AnyObject]
 
 public enum AlamofireAuthentication {
-    case Basic(String, String)
-    case Bearer(String)
-    case None
+    case basic(String, String)
+    case bearer(String)
+    case none
 }
 
 public protocol AlamofireManagerSingleton: class {
-    static var sharedManager: Manager { get }
+    static var sharedManager: SessionManager { get }
 }
 
 public protocol AlamofireEndpoint: RawRepresentable {
@@ -42,71 +42,75 @@ public protocol AlamofireEndpoint: RawRepresentable {
     var Authentication: AlamofireAuthentication { get }
 }
 
-public enum AlamofireRequestParameter: DictionaryLiteralConvertible {
+public enum AlamofireRequestParameter: ExpressibleByDictionaryLiteral {
     public typealias Key = String
     public typealias Value = AnyObject
 
-    case JSON(JSONDictionary)
-    case File(NSData)
-    case Body(String)
-    case URLParameters(JSONDictionary)
-    case ContentType(String)
-    case Authentication(AlamofireAuthentication)
+    case json(JSONDictionary)
+    case file(Data)
+    case body(String)
+    case urlParameters(JSONDictionary)
+    case contentType(String)
+    case authentication(AlamofireAuthentication)
 
     public init(dictionaryLiteral elements: (Key, Value)...) {
         var parameters: JSONDictionary = [:]
         for (key, value) in elements {
             parameters[key] = value
         }
-        self = .URLParameters(parameters)
+        self = .urlParameters(parameters)
     }
 }
 
-public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiteralType>: URLRequestConvertible, StringLiteralConvertible {
+extension NSMutableURLRequest: URLRequestConvertible {
+    public var urlRequest: URLRequest { return self as URLRequest }
+}
+
+public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, URLStringConvertible, ExpressibleByStringLiteral where T.RawValue == StringLiteralType {
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     public typealias UnicodeScalarLiteralType = StringLiteralType
 
-    case POST(T)
-    case GET(T)
-    case PATCH(T)
-    case HEAD(T)
-    case PUT(T)
-    case DELETE(T)
+    case post(T)
+    case get(T)
+    case patch(T)
+    case head(T)
+    case put(T)
+    case delete(T)
 
-    indirect case Pattern(AlamofireRouter, [String])
-    indirect case MethodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
+    indirect case pattern(AlamofireRouter, [String])
+    indirect case methodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
 
     var endpoint: T {
         switch self {
-        case .POST(let endpoint):
+        case .post(let endpoint):
             return endpoint
 
-        case .GET(let endpoint):
+        case .get(let endpoint):
             return endpoint
 
-        case .PATCH(let endpoint):
+        case .patch(let endpoint):
             return endpoint
 
-        case .HEAD(let endpoint):
+        case .head(let endpoint):
             return endpoint
 
-        case .PUT(let endpoint):
+        case .put(let endpoint):
             return endpoint
 
-        case .DELETE(let endpoint):
+        case .delete(let endpoint):
             return endpoint
 
-        case .MethodWithRequestParameters(let method, _):
+        case .methodWithRequestParameters(let method, _):
             return method.endpoint
 
-        case .Pattern(let router, _):
+        case .pattern(let router, _):
             return router.endpoint
         }
     }
 
     var path: String {
         switch self {
-        case .Pattern(_, var parameters):
+        case .pattern(_, var parameters):
             var path = ""
             for character in endpoint.rawValue.characters {
                 if character == Character("?") {
@@ -114,12 +118,12 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                     path += String(value)
                 }
                 else {
-                    character.writeTo(&path)
+                    character.write(to: &path)
                 }
             }
             return path
 
-        case .MethodWithRequestParameters(let router, _):
+        case .methodWithRequestParameters(let router, _):
             return router.path
 
         default:
@@ -129,16 +133,16 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     var contentType: String {
         switch self {
-        case .MethodWithRequestParameters(let router, let requestParameters):
+        case .methodWithRequestParameters(let router, let requestParameters):
             for parameter in requestParameters {
-                if case .ContentType(let contentType) = parameter {
+                if case .contentType(let contentType) = parameter {
                     return contentType
                 }
             }
 
             return router.contentType
 
-        case .Pattern(let router, _):
+        case .pattern(let router, _):
             return router.contentType
 
         default:
@@ -148,44 +152,44 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     var HTTPMethod: String {
         switch self {
-        case .POST:
+        case .post:
             return "POST"
 
-        case .GET:
+        case .get:
             return "GET"
 
-        case .PATCH:
+        case .patch:
             return "PATCH"
 
-        case .HEAD:
+        case .head:
             return "HEAD"
 
-        case .PUT:
+        case .put:
             return "PUT"
 
-        case .DELETE:
+        case .delete:
             return "DELETE"
 
-        case .MethodWithRequestParameters(let router, _):
+        case .methodWithRequestParameters(let router, _):
             return router.HTTPMethod
 
-        case .Pattern(let router, _):
+        case .pattern(let router, _):
             return router.HTTPMethod
         }
     }
 
     var parameters: JSONDictionary? {
         switch self {
-        case .Pattern(let router, _):
+        case .pattern(let router, _):
             return router.parameters
 
-        case .MethodWithRequestParameters(_, let requestParameters):
+        case .methodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
-                case .JSON(let parameters):
+                case .json(let parameters):
                     return parameters
 
-                case .URLParameters(let parameters):
+                case .urlParameters(let parameters):
                     return parameters
 
                 default:
@@ -201,10 +205,10 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     var authentication: AlamofireAuthentication {
         switch self {
-        case .MethodWithRequestParameters(_, let requestParameters):
+        case .methodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
-                case .Authentication(let authentication):
+                case .authentication(let authentication):
                     return authentication
 
                 default:
@@ -212,7 +216,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
                 }
             }
 
-        case .Pattern(let router, _):
+        case .pattern(let router, _):
             return router.authentication
 
         default:
@@ -222,13 +226,13 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
         return endpoint.Authentication
     }
 
-    @available(*, deprecated=1.0, message="No longer in use.")
+    @available(*, deprecated: 1.0, message: "No longer in use.")
     var body: String? {
         switch self {
-        case .MethodWithRequestParameters(_, let requestParameters):
+        case .methodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
-                case .Body(let s):
+                case .body(let s):
                     return s
 
                 default:
@@ -245,11 +249,11 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     var encoding: ParameterEncoding {
         switch self {
-        case .MethodWithRequestParameters(let router, let requestParameters):
+        case .methodWithRequestParameters(let router, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
-                case .JSON:
-                    return ParameterEncoding.JSON
+                case .json:
+                    return JSONEncoding.default
 
                 default:
                     break
@@ -258,49 +262,46 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
             return router.encoding
 
-        case .Pattern(let router, _):
+        case .pattern(let router, _):
             return router.encoding
 
         default:
-            return ParameterEncoding.URL
+            return URLEncoding.default
         }
     }
 
-    public var URLRequest: NSMutableURLRequest {
-        var URL = NSURL(string: T.BaseURL)!
-        URL = URL.URLByAppendingPathComponent(path)
-        let request = NSMutableURLRequest(URL: URL)
+    public var urlRequest: URLRequest {
+        var URL = Foundation.URL(string: T.BaseURL)!
+        URL = URL.appendingPathComponent(path)
+        let request = NSMutableURLRequest(url: URL)
 
-        request.HTTPMethod = HTTPMethod
+        request.httpMethod = HTTPMethod
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
 
         switch authentication {
-        case .Basic(let username, let password):
+        case .basic(let username, let password):
             var base64Credentials: String!
-            var dispatchToken: dispatch_once_t = 0
-            dispatch_once(&dispatchToken) {
-                let credentialData = "\(username):\(password)".dataUsingEncoding(NSUTF8StringEncoding)!
-                base64Credentials = credentialData.base64EncodedStringWithOptions([])
-            }
+            // MARK: TODO. Add back dispatch_once
+            let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8)!
+            base64Credentials = credentialData.base64EncodedString(options: [])
             request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
 
-        case .Bearer(let token):
+        case .bearer(let token):
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
-        case .None:
+        case .none:
             break
         }
 
-        let result = encoding.encode(request, parameters: parameters)
-        if let error = result.1 {
-            fatalError(String(error.code))
-        }
+        return try! encoding.encode(request, with: parameters)
+    }
 
-        return result.0
+    public var urlString: String {
+        return urlRequest.urlString
     }
 
     init(_ stringValue: String) {
-        self = .GET(T(rawValue: stringValue)!)
+        self = .get(T(rawValue: stringValue)!)
     }
 
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
@@ -317,16 +318,16 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
 
     // MARK: -
 
-    public func with(parameters: JSONDictionary) -> AlamofireRouter {
-        return with(.URLParameters(parameters))
+    public func with(_ parameters: JSONDictionary) -> AlamofireRouter {
+        return with(.urlParameters(parameters))
     }
 
-    public func with(parameters: AlamofireRequestParameter...) -> AlamofireRouter {
-        if case AlamofireRouter.MethodWithRequestParameters(let router, var requestParameters) = self {
-            requestParameters.appendContentsOf(parameters)
-            return AlamofireRouter.MethodWithRequestParameters(router, requestParameters)
+    public func with(_ parameters: AlamofireRequestParameter...) -> AlamofireRouter {
+        if case AlamofireRouter.methodWithRequestParameters(let router, var requestParameters) = self {
+            requestParameters.append(contentsOf: parameters)
+            return AlamofireRouter.methodWithRequestParameters(router, requestParameters)
         } else {
-            return AlamofireRouter.MethodWithRequestParameters(self, parameters)
+            return AlamofireRouter.methodWithRequestParameters(self, parameters)
         }
     }
 
@@ -338,39 +339,39 @@ public enum AlamofireRouter<T: AlamofireEndpoint where T.RawValue == StringLiter
      }
      ```
      */
-    public func responseJSON<T>(success: T -> Void, failure: APIError -> Void) {
+    public func responseJSON<T>(_ success: @escaping (T) -> Void, failure: @escaping (APIError) -> Void) {
         AlamofireClient.request(self).responseJSON { response in
             switch response.result {
-            case .Success(let value):
+            case .success(let value):
                 if let value = value as? T {
                     success(value)
                 } else {
-                    failure(APIError.Unspecified)
+                    failure(APIError.unspecified)
                 }
 
-            case .Failure:
-                failure(APIError.Unspecified)
+            case .failure:
+                failure(APIError.unspecified)
             }
         }
     }
 }
 
-public class AlamofireClient<T: AlamofireEndpoint where T.RawValue == String> {
+open class AlamofireClient<T: AlamofireEndpoint> where T.RawValue == String {
     public typealias Router = AlamofireRouter<T>
 
-    public static var theManager: Manager {
+    open static var theManager: SessionManager {
         if let Manager = T.CustomManager {
             return Manager.sharedManager
         } else {
-            return Manager.sharedInstance
+            return SessionManager.default
         }
     }
 
-    public static func upload(URLRequest: Router, multipartFormData: MultipartFormData -> Void, completion: Manager.MultipartFormDataEncodingResult -> Void) -> Void {
-        theManager.upload(URLRequest, multipartFormData: multipartFormData, encodingCompletion: completion)
+    open static func upload(_ URLRequest: Router, multipartFormData: @escaping (MultipartFormData) -> Void, completion: @escaping (SessionManager.MultipartFormDataEncodingResult) -> Void) -> Void {
+        theManager.upload(multipartFormData: multipartFormData, with: URLRequest, encodingCompletion: completion)
     }
 
-    public static func request(URLRequest: Router) -> Request {
+    open static func request(_ URLRequest: Router) -> DataRequest {
         return theManager.request(URLRequest)
     }
 }
