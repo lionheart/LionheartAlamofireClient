@@ -2,7 +2,7 @@
 
 import Quick
 import Nimble
-import LionheartAlamofireExtensions
+import LionheartAlamofireClient
 
 class TableOfContentsSpec: QuickSpec {
     override func spec() {
@@ -33,12 +33,12 @@ class TableOfContentsSpec: QuickSpec {
                 it("will eventually pass") {
                     var time = "passing"
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         time = "done"
                     }
 
                     waitUntil { done in
-                        NSThread.sleepForTimeInterval(0.5)
+                        Thread.sleep(forTimeInterval: 0.5)
                         expect(time) == "done"
 
                         done()
