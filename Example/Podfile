@@ -6,12 +6,12 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'LionheartAlamofireClient_Example' do
-  pod 'Alamofire', :git => 'https://github.com/Alamofire/Alamofire.git', :branch => 'swift3'
+  pod 'Alamofire', '~> 4.0'
   pod 'LionheartAlamofireClient', :path => '../'
 
   target 'LionheartAlamofireClient_Tests' do
-    pod 'Quick', :git => 'git@github.com:Quick/Quick.git', :branch => "swift-3.0"
-    pod 'Nimble', :git => 'git@github.com:Quick/Nimble.git', :branch => "swift-3.0"
+    pod 'Quick', '0.9.3'
+    pod 'Nimble', '~> 4.1'
   end
 end
 
