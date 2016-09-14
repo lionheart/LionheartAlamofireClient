@@ -6,12 +6,15 @@ PODS:
   - Quick (0.9.3)
 
 DEPENDENCIES:
-  - Alamofire (~> 4.0)
+  - Alamofire (from `https://github.com/lionheart/Alamofire.git`, commit `f42b208`)
   - LionheartAlamofireClient (from `../`)
   - Nimble (from `https://github.com/Quick/Nimble.git`, commit `fcc28b2`)
   - Quick (from `https://github.com/Quick/Quick.git`, branch `swift-3.0`)
 
 EXTERNAL SOURCES:
+  Alamofire:
+    :commit: f42b208
+    :git: https://github.com/lionheart/Alamofire.git
   LionheartAlamofireClient:
     :path: "../"
   Nimble:
@@ -22,6 +25,9 @@ EXTERNAL SOURCES:
     :git: https://github.com/Quick/Quick.git
 
 CHECKOUT OPTIONS:
+  Alamofire:
+    :commit: f42b208
+    :git: https://github.com/lionheart/Alamofire.git
   Nimble:
     :commit: fcc28b2
     :git: https://github.com/Quick/Nimble.git
@@ -35,6 +41,6 @@ SPEC CHECKSUMS:
   Nimble: c5b995b4cd57789ec44b0cfb79640fc00e61a8c7
   Quick: 31fb576b6cbb6b028cc5e0016e4366accbb346f5
 
-PODFILE CHECKSUM: c5794489e54609e5b145ee639deaad91598560cb
+PODFILE CHECKSUM: 1f83e65f3728d07f265e9bf99cca564e3b543cf5
 
 COCOAPODS: 1.1.0.rc.2
