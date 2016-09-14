@@ -63,10 +63,12 @@ public enum AlamofireRequestParameter: ExpressibleByDictionaryLiteral {
 }
 
 extension NSMutableURLRequest: URLRequestConvertible {
-    public var urlRequest: URLRequest { return self as URLRequest }
+    public func asURLRequest() throws -> URLRequest {
+        return self as URLRequest
+    }
 }
 
-public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, URLStringConvertible, ExpressibleByStringLiteral where T.RawValue == StringLiteralType {
+public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, ExpressibleByStringLiteral where T.RawValue == StringLiteralType {
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     public typealias UnicodeScalarLiteralType = StringLiteralType
 
@@ -270,7 +272,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, URLStr
         }
     }
 
-    public var urlRequest: URLRequest {
+    public func asURLRequest() throws -> URLRequest {
         var URL = Foundation.URL(string: T.BaseURL)!
         URL = URL.appendingPathComponent(path)
         let request = NSMutableURLRequest(url: URL)
@@ -297,7 +299,11 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, URLStr
     }
 
     public var urlString: String {
-        return urlRequest.urlString
+        guard let request = try? asURLRequest(),
+            let string = request.url?.absoluteString else {
+            return ""
+        }
+        return string
     }
 
     init(_ stringValue: String) {
