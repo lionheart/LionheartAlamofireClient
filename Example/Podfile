@@ -6,7 +6,7 @@ inhibit_all_warnings!
 use_frameworks!
 
 target 'LionheartAlamofireClient_Example' do
-  pod 'Alamofire', '~> 4.0'
+  pod 'Alamofire', :git => "https://github.com/lionheart/Alamofire.git", :commit => 'f42b208'
   pod 'LionheartAlamofireClient', :path => '../'
 
   target 'LionheartAlamofireClient_Tests' do
