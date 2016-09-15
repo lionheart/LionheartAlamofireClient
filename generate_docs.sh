@@ -4,7 +4,7 @@ jazzy \
   --author Lionheart \
   --author_url http://lionheartsw.com \
   --github_url https://github.com/lionheart/LionheartAlamofireClient \
-  --github-file-prefix https://github.com/lionheart/LionheartAlamofireClient/tree/2.0.1 \
+  --github-file-prefix https://github.com/lionheart/LionheartAlamofireClient/tree/2.0.2 \
   --module LionheartAlamofireClient
 
 git co gh-pages
