@@ -22,7 +22,61 @@ public enum APIError: Error {
     case unspecified
 }
 
-public typealias JSONDictionary = [String: AnyObject]
+public protocol JSONValue {}
+extension String: JSONValue {}
+extension Int: JSONValue {}
+extension Bool: JSONValue {}
+extension Float: JSONValue {}
+extension Dictionary: JSONValue {}
+extension Array: JSONValue {}
+extension Optional: JSONValue {}
+
+/*
+protocol JSONObjectKeyType: Hashable { }
+extension String: JSONObjectKeyType {}
+extension Int: JSONObjectKeyType {}
+extension Bool: JSONObjectKeyType {}
+
+indirect enum JSONType: Hashable {
+    case string(String)
+    case int(Int)
+    case bool(Bool)
+    case null
+    case object([JSONType: JSONType])
+    case array([JSONType])
+
+    var hashValue: Int {
+        switch self {
+        case .string(let v): return v.hashValue
+        case .int(let v): return v.hashValue
+        case .bool(let v): return v.hashValue
+        case .null: return -1
+        case .object: return -2
+        case .array: return -3
+        }
+    }
+}
+
+func ==(lhs: JSONType, rhs: JSONType) -> Bool {
+    if case .string(let a) = lhs, case .string(let b) = rhs {
+        return a == b
+    } else if case .int(let a) = lhs, case .int(let b) = rhs {
+        return a == b
+    } else if case .bool(let a) = lhs, case .bool(let b) = rhs {
+        return a == b
+    } else if case .array(let a) = lhs, case .array(let b) = rhs {
+        return a == b
+    } else if case .object(let a) = lhs, case .object(let b) = rhs {
+        return a == b
+    }
+
+    return false
+}
+ */
+
+// MARK: -
+
+public typealias JSONDictionary = [String: JSONValue]
 
 public enum AlamofireAuthentication {
     case basic(String, String)
@@ -44,7 +98,7 @@ public protocol AlamofireEndpoint: RawRepresentable {
 
 public enum AlamofireRequestParameter: ExpressibleByDictionaryLiteral {
     public typealias Key = String
-    public typealias Value = AnyObject
+    public typealias Value = JSONValue
 
     case json(JSONDictionary)
     case file(Data)
