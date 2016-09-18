@@ -1,5 +1,0 @@
-#import <Foundation/Foundation.h>
-@interface PodsDummy_Pods_LionheartAlamofireClient_Example_LionheartAlamofireClient_Tests : NSObject
-@end
-@implementation PodsDummy_Pods_LionheartAlamofireClient_Example_LionheartAlamofireClient_Tests
-@end
