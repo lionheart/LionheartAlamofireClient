@@ -22,12 +22,14 @@ public enum APIError: Error {
     case unspecified
 }
 
-protocol Number {}
+public protocol Number {}
 extension Int: Number {}
 extension Float: Number {}
 extension Double: Number {}
 
-indirect enum JSONDataType {
+public protocol JSONDataTypeType {}
+
+indirect public enum JSONDataType: JSONDataTypeType {
     case number(Number)
     case string(String)
     case bool(Bool)
@@ -35,7 +37,80 @@ indirect enum JSONDataType {
     case array([JSONDataType])
     case object([String: JSONDataType])
 
-    init(_ value: Int?) {
+    public var unwrapped: Any? {
+        switch self {
+        case .number(let value): return value
+        case .string(let value): return value
+        case .bool(let value): return value
+        case .null: return nil
+        case .array(let values): return values.map { $0.unwrapped }
+        case .object(let elements):
+            var dict: [String: Any] = [:]
+            for (key, value) in elements {
+                dict[key] = value.unwrapped
+            }
+            return dict
+        }
+    }
+
+    mutating func set(value: Any, forKey key: String) {
+        guard case .object(var object) = self else { return }
+
+        if let value = value as? String {
+            object[key] = .string(value)
+        } else if let value = value as? Bool {
+            object[key] = .bool(value)
+        } else if let value = value as? Number {
+            object[key] = .number(value)
+        } else if let value = value as? JSONDataType {
+            object[key] = value
+        } else if let values = value as? [JSONDataType] {
+            object[key] = .array(values)
+        } else {
+            object[key] = .null
+        }
+
+        self = .object(object)
+    }
+
+    func get(key: String) -> JSONDataType {
+        guard case .object(let object) = self else { return .null }
+        return object[key] ?? .null
+    }
+
+    func get<T>(key: String) -> T? {
+        let value: JSONDataType = get(key: key)
+        switch value {
+        case .number(let number): return number as? T
+        case .bool(let bool): return bool as? T
+        case .string(let string): return string as? T
+        case .array(let values): return values as? T
+        case .object(let object): return object as? T
+        case .null: return nil
+        }
+    }
+
+    public subscript(key: String) -> JSONDataType {
+        set { set(value: newValue, forKey: key) }
+        get { return get(key: key) }
+    }
+
+    public subscript(key: String) -> String? {
+        set { set(value: newValue, forKey: key) }
+        get { return get(key: key) }
+    }
+
+    public subscript(key: String) -> Bool? {
+        set { set(value: newValue, forKey: key) }
+        get { return get(key: key) }
+    }
+
+    public subscript(key: String) -> Number? {
+        set { set(value: newValue, forKey: key) }
+        get { return get(key: key) }
+    }
+
+    public init(_ value: Int?) {
         if let value = value {
             self = .number(value)
         } else {
@@ -43,7 +118,7 @@ indirect enum JSONDataType {
         }
     }
 
-    init(_ value: String?) {
+    public init(_ value: String?) {
         if let value = value {
             self = .string(value)
         } else {
@@ -51,12 +126,25 @@ indirect enum JSONDataType {
         }
     }
 
-    init(_ value: Bool?) {
+    public init(_ value: Bool?) {
         if let value = value {
             self = .bool(value)
         } else {
             self = .null
         }
+    }
+}
+
+extension JSONDataType: ExpressibleByDictionaryLiteral {
+    public typealias Key = String
+    public typealias Value = Any
+
+    public init(dictionaryLiteral elements: (Key, Value)...) {
+        var params: JSONDataType = .object([:])
+        for (key, value) in elements {
+            params.set(value: value, forKey: key)
+        }
+        self = params
     }
 }
 
@@ -228,9 +316,10 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
                 switch parameter {
                 case .json(let parameters):
                     if case .object(let value) = parameters {
+                        // MARK: TODO Might want to just return unwrapped here for the main object.
                         var params: Parameters = [:]
                         for (key, value) in value {
-                            params[key] = value
+                            params[key] = value.unwrapped
                         }
                         return params
                     }
