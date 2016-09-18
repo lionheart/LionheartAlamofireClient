@@ -22,18 +22,45 @@ public enum APIError: Error {
     case unspecified
 }
 
-public protocol JSONValue {}
-extension String: JSONValue {}
-extension Int: JSONValue {}
-extension Bool: JSONValue {}
-extension Float: JSONValue {}
-extension Dictionary: JSONValue {}
-extension Array: JSONValue {}
-extension Optional: JSONValue {}
+protocol Number {}
+extension Int: Number {}
+extension Float: Number {}
+extension Double: Number {}
+
+indirect enum JSONDataType {
+    case number(Number)
+    case string(String)
+    case bool(Bool)
+    case null
+    case array([JSONDataType])
+    case object([String: JSONDataType])
+
+    init(_ value: Int?) {
+        if let value = value {
+            self = .number(value)
+        } else {
+            self = .null
+        }
+    }
+
+    init(_ value: String?) {
+        if let value = value {
+            self = .string(value)
+        } else {
+            self = .null
+        }
+    }
+
+    init(_ value: Bool?) {
+        if let value = value {
+            self = .bool(value)
+        } else {
+            self = .null
+        }
+    }
+}
 
 // MARK: -
-
-public typealias JSONDictionary = [String: AnyObject]
 
 public enum AlamofireAuthentication {
     case basic(String, String)
@@ -57,15 +84,15 @@ public enum AlamofireRequestParameter: ExpressibleByDictionaryLiteral {
     public typealias Key = String
     public typealias Value = AnyObject
 
-    case json(JSONDictionary)
+    case json(JSONDataType)
     case file(Data)
     case body(String)
-    case urlParameters(JSONDictionary)
+    case urlParameters(Parameters)
     case contentType(String)
     case authentication(AlamofireAuthentication)
 
     public init(dictionaryLiteral elements: (Key, Value)...) {
-        var parameters: JSONDictionary = [:]
+        var parameters: Parameters = [:]
         for (key, value) in elements {
             parameters[key] = value
         }
@@ -191,7 +218,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
         }
     }
 
-    var parameters: JSONDictionary? {
+    var parameters: Parameters? {
         switch self {
         case .pattern(let router, _):
             return router.parameters
@@ -200,7 +227,13 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
             for parameter in requestParameters {
                 switch parameter {
                 case .json(let parameters):
-                    return parameters
+                    if case .object(let value) = parameters {
+                        var params: Parameters = [:]
+                        for (key, value) in value {
+                            params[key] = value
+                        }
+                        return params
+                    }
 
                 case .urlParameters(let parameters):
                     return parameters
@@ -312,7 +345,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     public var urlString: String {
         guard let request = try? asURLRequest(),
             let string = request.url?.absoluteString else {
-            return ""
+                return ""
         }
         return string
     }
@@ -335,7 +368,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
 
     // MARK: -
 
-    public func with(_ parameters: JSONDictionary) -> AlamofireRouter {
+    public func with(_ parameters: Parameters) -> AlamofireRouter {
         return with(.urlParameters(parameters))
     }
 
@@ -351,7 +384,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     /**
 
      ```
-     Router<Endpoint>.GET(.Users).responseJSON { (response: [JSONDictionary]?) in
+     Router<Endpoint>.GET(.Users).responseJSON { (response: [Parameters]?) in
 
      }
      ```
@@ -383,11 +416,11 @@ open class AlamofireClient<T: AlamofireEndpoint> where T.RawValue == String {
             return SessionManager.default
         }
     }
-
+    
     open static func upload(_ URLRequest: Router, multipartFormData: @escaping (MultipartFormData) -> Void, completion: @escaping (SessionManager.MultipartFormDataEncodingResult) -> Void) -> Void {
         theManager.upload(multipartFormData: multipartFormData, with: URLRequest, encodingCompletion: completion)
     }
-
+    
     open static func request(_ URLRequest: Router) -> DataRequest {
         return theManager.request(URLRequest)
     }
