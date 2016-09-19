@@ -116,7 +116,7 @@ indirect public enum JSONDataType: JSONDataTypeType {
 
     public init(_ value: AnyObject?) {
         guard let value = value else {
-            self = .null
+            self.init()
             return
         }
 
@@ -131,8 +131,12 @@ indirect public enum JSONDataType: JSONDataTypeType {
         } else if let value  = value as? [String: AnyObject?] {
             self.init(value)
         } else {
-            self = .null
+            self.init()
         }
+    }
+
+    public init() {
+        self = .null
     }
 
     public init(_ elements: [String: AnyObject?]?) {
@@ -147,9 +151,9 @@ indirect public enum JSONDataType: JSONDataTypeType {
         }
     }
 
-    public init(_ value: [AnyObject]?) {
-        if let value = value {
-            self = .array(value.map(JSONDataType.init))
+    public init(_ values: [AnyObject]?) {
+        if let values = values {
+            self = .array(values.map(JSONDataType.init))
         } else {
             self = .null
         }
