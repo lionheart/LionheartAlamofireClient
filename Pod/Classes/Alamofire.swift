@@ -41,6 +41,7 @@ indirect public enum JSONDataType: JSONDataTypeType {
     case number(Number)
     case string(String)
     case bool(Bool)
+    case date(Date)
     case null
     case array([JSONDataType])
     case object([String: JSONDataType])
@@ -50,6 +51,7 @@ indirect public enum JSONDataType: JSONDataTypeType {
         case .number(let value): return value as AnyObject
         case .string(let value): return value as AnyObject
         case .bool(let value): return value as AnyObject
+        case .date(let value): return value as AnyObject
         case .null: return nil
         case .array(let values): return values.map({ $0.unwrapped }) as AnyObject
         case .object(let elements):
@@ -77,6 +79,7 @@ indirect public enum JSONDataType: JSONDataTypeType {
         switch value {
         case .number(let number): return number as? T
         case .bool(let bool): return bool as? T
+        case .date(let date): return date as? T
         case .string(let string): return string as? T
         case .array(let values): return values as? T
         case .object(let object): return object as? T
@@ -104,12 +107,27 @@ indirect public enum JSONDataType: JSONDataTypeType {
         get { return get(key: key) }
     }
 
+    public subscript(key: String) -> Date? {
+        set { set(value: JSONDataType(newValue), forKey: key) }
+        get { return get(key: key) }
+    }
+
     public subscript(key: String) -> Bool? {
         set { set(value: JSONDataType(newValue), forKey: key) }
         get { return get(key: key) }
     }
 
-    public subscript(key: String) -> Number? {
+    public subscript(key: String) -> Int? {
+        set { set(value: JSONDataType(newValue), forKey: key) }
+        get { return get(key: key) }
+    }
+
+    public subscript(key: String) -> Float? {
+        set { set(value: JSONDataType(newValue), forKey: key) }
+        get { return get(key: key) }
+    }
+
+    public subscript(key: String) -> Double? {
         set { set(value: JSONDataType(newValue), forKey: key) }
         get { return get(key: key) }
     }
@@ -120,9 +138,13 @@ indirect public enum JSONDataType: JSONDataTypeType {
             return
         }
 
-        if let value = value as? Number {
+        if let value = value as? Int {
             self.init(value)
-        } else if let value = value as? String {
+        } else if let value = value as? Float {
+            self.init(value)
+        } else if let value = value as? Double {
+            self.init(value)
+        }else if let value = value as? String {
             self.init(value)
         } else if let value = value as? Bool {
             self.init(value)
@@ -159,7 +181,31 @@ indirect public enum JSONDataType: JSONDataTypeType {
         }
     }
 
-    public init(_ value: Number?) {
+    public init(_ value: Date?) {
+        if let value = value {
+            self = .date(value)
+        } else {
+            self = .null
+        }
+    }
+
+    public init(_ value: Int?) {
+        if let value = value {
+            self = .number(value)
+        } else {
+            self = .null
+        }
+    }
+
+    public init(_ value: Float?) {
+        if let value = value {
+            self = .number(value)
+        } else {
+            self = .null
+        }
+    }
+
+    public init(_ value: Double?) {
         if let value = value {
             self = .number(value)
         } else {
@@ -481,7 +527,6 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
             break
         }
 
-        let p = parameters
         return try! encoding.encode(request, with: parameters)
     }
 
