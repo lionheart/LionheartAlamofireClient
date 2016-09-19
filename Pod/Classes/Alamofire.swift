@@ -27,7 +27,15 @@ extension Int: Number {}
 extension Float: Number {}
 extension Double: Number {}
 
-public protocol JSONDataTypeType {}
+public protocol JSONDataTypeType {
+    var unwrapped: AnyObject? { get }
+}
+
+public extension Array where Element: JSONDataTypeType {
+    var unwrapped: [AnyObject] {
+        return map({ $0.unwrapped }).flatMap { $0 }
+    }
+}
 
 indirect public enum JSONDataType: JSONDataTypeType {
     case number(Number)
@@ -37,39 +45,25 @@ indirect public enum JSONDataType: JSONDataTypeType {
     case array([JSONDataType])
     case object([String: JSONDataType])
 
-    public var unwrapped: Any? {
+    public var unwrapped: AnyObject? {
         switch self {
-        case .number(let value): return value
-        case .string(let value): return value
-        case .bool(let value): return value
+        case .number(let value): return value as AnyObject
+        case .string(let value): return value as AnyObject
+        case .bool(let value): return value as AnyObject
         case .null: return nil
-        case .array(let values): return values.map { $0.unwrapped }
+        case .array(let values): return values.map({ $0.unwrapped }) as AnyObject
         case .object(let elements):
             var dict: [String: Any] = [:]
             for (key, value) in elements {
                 dict[key] = value.unwrapped
             }
-            return dict
+            return dict as AnyObject
         }
     }
 
-    mutating func set(value: Any, forKey key: String) {
+    mutating func set(value: JSONDataType, forKey key: String) {
         guard case .object(var object) = self else { return }
-
-        if let value = value as? String {
-            object[key] = .string(value)
-        } else if let value = value as? Bool {
-            object[key] = .bool(value)
-        } else if let value = value as? Number {
-            object[key] = .number(value)
-        } else if let value = value as? JSONDataType {
-            object[key] = value
-        } else if let values = value as? [JSONDataType] {
-            object[key] = .array(values)
-        } else {
-            object[key] = .null
-        }
-
+        object[key] = value
         self = .object(object)
     }
 
@@ -95,22 +89,73 @@ indirect public enum JSONDataType: JSONDataTypeType {
         get { return get(key: key) }
     }
 
+    public subscript(key: String) -> [AnyObject]? {
+        set { newValue.flatMap { set(value: JSONDataType($0), forKey: key) } }
+        get { return get(key: key) }
+    }
+
+    public subscript(key: String) -> [String: AnyObject?]? {
+        set { newValue.flatMap { set(value: JSONDataType($0), forKey: key) } }
+        get { return get(key: key) }
+    }
+
     public subscript(key: String) -> String? {
-        set { set(value: newValue, forKey: key) }
+        set { set(value: JSONDataType(newValue), forKey: key) }
         get { return get(key: key) }
     }
 
     public subscript(key: String) -> Bool? {
-        set { set(value: newValue, forKey: key) }
+        set { set(value: JSONDataType(newValue), forKey: key) }
         get { return get(key: key) }
     }
 
     public subscript(key: String) -> Number? {
-        set { set(value: newValue, forKey: key) }
+        set { set(value: JSONDataType(newValue), forKey: key) }
         get { return get(key: key) }
     }
 
-    public init(_ value: Int?) {
+    public init(_ value: AnyObject?) {
+        guard let value = value else {
+            self = .null
+            return
+        }
+
+        if let value = value as? Number {
+            self.init(value)
+        } else if let value = value as? String {
+            self.init(value)
+        } else if let value = value as? Bool {
+            self.init(value)
+        } else if let value = value as? [AnyObject] {
+            self.init(value)
+        } else if let value  = value as? [String: AnyObject?] {
+            self.init(value)
+        } else {
+            self = .null
+        }
+    }
+
+    public init(_ elements: [String: AnyObject?]?) {
+        if let elements = elements {
+            var params: [String: JSONDataType] = [:]
+            for (key, value) in elements {
+                params[key] = JSONDataType(value)
+            }
+            self = .object(params)
+        } else {
+            self = .null
+        }
+    }
+
+    public init(_ value: [AnyObject]?) {
+        if let value = value {
+            self = .array(value.map(JSONDataType.init))
+        } else {
+            self = .null
+        }
+    }
+
+    public init(_ value: Number?) {
         if let value = value {
             self = .number(value)
         } else {
@@ -142,7 +187,11 @@ extension JSONDataType: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (Key, Value)...) {
         var params: JSONDataType = .object([:])
         for (key, value) in elements {
-            params.set(value: value, forKey: key)
+            if let value = value as? AnyObject {
+                params[key] = JSONDataType(value)
+            } else {
+                params[key] = .null
+            }
         }
         self = params
     }
@@ -428,6 +477,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
             break
         }
 
+        let p = parameters
         return try! encoding.encode(request, with: parameters)
     }
 

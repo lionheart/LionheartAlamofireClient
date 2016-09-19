@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		318500D555677DD693C433E9 /* Pods_LionheartAlamofireClient_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D0FD17D14619EBBB4067A03 /* Pods_LionheartAlamofireClient_Tests.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		35D35A7A044C65018A4E715B /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		420BC7DA82BD16003B5C59FD /* Pods-LionheartAlamofireClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LionheartAlamofireClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		5BA2C81A898E0F2E478316D6 /* Pods-LionheartAlamofireClient_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LionheartAlamofireClient_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-LionheartAlamofireClient_Example/Pods-LionheartAlamofireClient_Example.release.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* LionheartAlamofireClient_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LionheartAlamofireClient_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,7 +44,9 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		609EB8ECA82CCBE8A3FCCFCB /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		67FDCB7D22FBA7BF546539DF /* Pods-LionheartAlamofireClient_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LionheartAlamofireClient_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LionheartAlamofireClient_Example/Pods-LionheartAlamofireClient_Example.debug.xcconfig"; sourceTree = "<group>"; };
+		86DB5630B048BD22B5BA1895 /* Pods-LionheartAlamofireClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LionheartAlamofireClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		880525C17D8A4AE689FA47C8 /* LionheartAlamofireExtensions.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LionheartAlamofireExtensions.podspec; path = ../LionheartAlamofireExtensions.podspec; sourceTree = "<group>"; };
+		9D0FD17D14619EBBB4067A03 /* Pods_LionheartAlamofireClient_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LionheartAlamofireClient_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B15438F6924AC9EC56551107 /* Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B65F19B4BF12308D7E8C2498 /* Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BB398E22DDA9D8ED035FE6AA /* Pods_LionheartAlamofireClient_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LionheartAlamofireClient_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,6 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B961B091C5D234293937DE18 /* Pods_LionheartAlamofireClient_Example_LionheartAlamofireClient_Tests.framework in Frameworks */,
+				318500D555677DD693C433E9 /* Pods_LionheartAlamofireClient_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +81,8 @@
 				5BA2C81A898E0F2E478316D6 /* Pods-LionheartAlamofireClient_Example.release.xcconfig */,
 				B15438F6924AC9EC56551107 /* Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.debug.xcconfig */,
 				B65F19B4BF12308D7E8C2498 /* Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.release.xcconfig */,
+				86DB5630B048BD22B5BA1895 /* Pods-LionheartAlamofireClient_Tests.debug.xcconfig */,
+				420BC7DA82BD16003B5C59FD /* Pods-LionheartAlamofireClient_Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -155,6 +162,7 @@
 			children = (
 				BB398E22DDA9D8ED035FE6AA /* Pods_LionheartAlamofireClient_Example.framework */,
 				C2122078DA8B0D5B7E640338 /* Pods_LionheartAlamofireClient_Example_LionheartAlamofireClient_Tests.framework */,
+				9D0FD17D14619EBBB4067A03 /* Pods_LionheartAlamofireClient_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -294,7 +302,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		79484FD4025E91C3D1055A80 /* [CP] Check Pods Manifest.lock */ = {
@@ -324,7 +332,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LionheartAlamofireClient_Tests/Pods-LionheartAlamofireClient_Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C43F6A277E53296A769224C8 /* [CP] Check Pods Manifest.lock */ = {
@@ -534,7 +542,7 @@
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B15438F6924AC9EC56551107 /* Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.debug.xcconfig */;
+			baseConfigurationReference = 86DB5630B048BD22B5BA1895 /* Pods-LionheartAlamofireClient_Tests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -558,7 +566,7 @@
 		};
 		607FACF41AFB9204008FA782 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B65F19B4BF12308D7E8C2498 /* Pods-LionheartAlamofireClient_Example-LionheartAlamofireClient_Tests.release.xcconfig */;
+			baseConfigurationReference = 420BC7DA82BD16003B5C59FD /* Pods-LionheartAlamofireClient_Tests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
