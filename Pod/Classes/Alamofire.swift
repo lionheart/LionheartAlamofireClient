@@ -44,33 +44,50 @@ indirect public enum JSONDataType: JSONDataTypeType {
     case date(Date)
     case null
     case array([JSONDataType])
-    case object([String: JSONDataType])
+    case dictionary([String: JSONDataType])
+    case unknown(Any)
 
     public var unwrapped: AnyObject? {
         switch self {
-        case .number(let value): return value as AnyObject
-        case .string(let value): return value as AnyObject
-        case .bool(let value): return value as AnyObject
-        case .date(let value): return value as AnyObject
-        case .null: return nil
-        case .array(let values): return values.map({ $0.unwrapped }) as AnyObject
-        case .object(let elements):
-            var dict: [String: Any] = [:]
-            for (key, value) in elements {
-                dict[key] = value.unwrapped
+        case .number(let value):
+            if let value = value as? Int {
+                return NSNumber(value: value)
+            } else if let value = value as? Float {
+                return NSNumber(value: value)
+            } else if let value = value as? Double {
+                return NSNumber(value: value)
+            } else {
+                return nil
             }
-            return dict as AnyObject
+
+        case .string(let value): return NSString(string: value)
+        case .bool(let value): return NSNumber(value: value)
+        case .date(let value): return NSDate(timeIntervalSince1970: value.timeIntervalSince1970)
+        case .null: return nil
+        case .array(let values): return NSArray(array: values.map({ $0.unwrapped }).flatMap({ $0 }))
+        case .dictionary(let elements):
+            var dict = NSMutableDictionary()
+            for (key, value) in elements {
+                guard let unwrapped = value.unwrapped else {
+                    continue
+                }
+
+                dict[key] = unwrapped
+            }
+            return dict
+
+        case .unknown(let value): return value as AnyObject?
         }
     }
 
     mutating func set(value: JSONDataType, forKey key: String) {
-        guard case .object(var object) = self else { return }
+        guard case .dictionary(var object) = self else { return }
         object[key] = value
-        self = .object(object)
+        self = .dictionary(object)
     }
 
     func get(key: String) -> JSONDataType {
-        guard case .object(let object) = self else { return .null }
+        guard case .dictionary(let object) = self else { return .null }
         return object[key] ?? .null
     }
 
@@ -82,8 +99,9 @@ indirect public enum JSONDataType: JSONDataTypeType {
         case .date(let date): return date as? T
         case .string(let string): return string as? T
         case .array(let values): return values as? T
-        case .object(let object): return object as? T
+        case .dictionary(let object): return object as? T
         case .null: return nil
+        case .unknown(let value): return value as? T
         }
     }
 
@@ -132,8 +150,8 @@ indirect public enum JSONDataType: JSONDataTypeType {
         get { return get(key: key) }
     }
 
-    public init(_ value: AnyObject?) {
-        guard let value = value else {
+    public init(_ value: Any) {
+        guard let value = value as AnyObject? else {
             self.init()
             return
         }
@@ -144,89 +162,63 @@ indirect public enum JSONDataType: JSONDataTypeType {
             self.init(value)
         } else if let value = value as? Double {
             self.init(value)
-        }else if let value = value as? String {
+        } else if let value = value as? String {
             self.init(value)
         } else if let value = value as? Bool {
             self.init(value)
-        } else if let value = value as? [AnyObject] {
+        } else if let value = value as? Date {
             self.init(value)
-        } else if let value  = value as? [String: AnyObject?] {
-            self.init(value)
+        } else if let values = value as? [AnyObject] {
+            self.init(values)
+        } else if let elements  = value as? [String: AnyObject?] {
+            self.init(elements)
         } else {
-            self.init()
+            self.init(unknown: value)
         }
+    }
+
+    public init(unknown value: Any) {
+        self = .unknown(value)
+    }
+
+    public init(_ elements: [String: AnyObject?]) {
+        var params: [String: JSONDataType] = [:]
+        for (key, value) in elements {
+            params[key] = JSONDataType(value)
+        }
+        self = .dictionary(params)
+    }
+
+    public init(_ elements: [AnyObject]) {
+        self = .array(elements.map({ JSONDataType($0) }))
+    }
+
+    public init(_ value: Bool) {
+        self = .bool(value)
+    }
+
+    public init(_ value: Int) {
+        self = .number(value)
+    }
+
+    public init(_ value: Float) {
+        self = .number(value)
+    }
+
+    public init(_ value: Double) {
+        self = .number(value)
+    }
+
+    public init(_ value: Date) {
+        self = .date(value)
+    }
+
+    public init(_ value: String) {
+        self = .string(value)
     }
 
     public init() {
         self = .null
-    }
-
-    public init(_ elements: [String: AnyObject?]?) {
-        if let elements = elements {
-            var params: [String: JSONDataType] = [:]
-            for (key, value) in elements {
-                params[key] = JSONDataType(value)
-            }
-            self = .object(params)
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ values: [AnyObject]?) {
-        if let values = values {
-            self = .array(values.map(JSONDataType.init))
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ value: Date?) {
-        if let value = value {
-            self = .date(value)
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ value: Int?) {
-        if let value = value {
-            self = .number(value)
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ value: Float?) {
-        if let value = value {
-            self = .number(value)
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ value: Double?) {
-        if let value = value {
-            self = .number(value)
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ value: String?) {
-        if let value = value {
-            self = .string(value)
-        } else {
-            self = .null
-        }
-    }
-
-    public init(_ value: Bool?) {
-        if let value = value {
-            self = .bool(value)
-        } else {
-            self = .null
-        }
     }
 }
 
@@ -235,7 +227,7 @@ extension JSONDataType: ExpressibleByDictionaryLiteral {
     public typealias Value = Any
 
     public init(dictionaryLiteral elements: (Key, Value)...) {
-        var params: JSONDataType = .object([:])
+        var params: JSONDataType = .dictionary([:])
         for (key, value) in elements {
             if let value = value as? AnyObject {
                 params[key] = JSONDataType(value)
@@ -269,9 +261,9 @@ public protocol AlamofireEndpoint: RawRepresentable {
 
 public enum AlamofireRequestParameter: ExpressibleByDictionaryLiteral {
     public typealias Key = String
-    public typealias Value = AnyObject
+    public typealias Value = Any
 
-    case json(JSONDataType)
+    case json(Parameters)
     case file(Data)
     case body(String)
     case urlParameters(Parameters)
@@ -413,17 +405,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
         case .methodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 switch parameter {
-                case .json(let parameters):
-                    if case .object(let value) = parameters {
-                        // MARK: TODO Might want to just return unwrapped here for the main object.
-                        var params: Parameters = [:]
-                        for (key, value) in value {
-                            params[key] = value.unwrapped
-                        }
-                        return params
-                    }
-
-                case .urlParameters(let parameters):
+                case .json(let parameters), .urlParameters(let parameters):
                     return parameters
 
                 default:
@@ -527,6 +509,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
             break
         }
 
+        let p = parameters
         return try! encoding.encode(request, with: parameters)
     }
 
