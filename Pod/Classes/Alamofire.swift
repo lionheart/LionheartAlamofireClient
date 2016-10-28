@@ -22,7 +22,7 @@ public enum APIError: Error {
     case unspecified
 }
 
-public typealias JSONDictionary = [String: AnyObject]
+public typealias JSONDictionary = [String: Any]
 
 public enum AlamofireAuthentication {
     case basic(String, String)
