@@ -159,7 +159,7 @@ open class SessionDelegate: NSObject {
     ///
     /// - returns: `true` if the receiver implements or inherits a method that can respond to selector, otherwise `false`.
     open override func responds(to selector: Selector) -> Bool {
-        #if !os(OSX)
+        #if !os(macOS)
             if selector == #selector(URLSessionDelegate.urlSessionDidFinishEvents(forBackgroundURLSession:)) {
                 return sessionDidFinishEventsForBackgroundURLSession != nil
             }
@@ -247,7 +247,7 @@ extension SessionDelegate: URLSessionDelegate {
         completionHandler(disposition, credential)
     }
 
-#if !os(OSX)
+#if !os(macOS)
 
     /// Tells the delegate that all messages enqueued for a session have been delivered.
     ///
@@ -374,6 +374,21 @@ extension SessionDelegate: URLSessionTaskDelegate {
         }
     }
 
+#if !os(watchOS)
+
+    /// Tells the delegate that the session finished collecting metrics for the task.
+    ///
+    /// - parameter session: The session collecting the metrics.
+    /// - parameter task:    The task whose metrics have been collected.
+    /// - parameter metrics: The collected metrics.
+    @available(iOS 10.0, macOS 10.12, tvOS 10.0, *)
+    @objc(URLSession:task:didFinishCollectingMetrics:)
+    open func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        self[task]?.delegate.metrics = metrics
+    }
+
+#endif
+
     /// Tells the delegate that the task finished transferring data.
     ///
     /// - parameter session: The session containing the task whose request finished transferring data.
@@ -425,8 +440,8 @@ extension SessionDelegate: URLSessionTaskDelegate {
 
                     let retrySucceeded = strongSelf.sessionManager?.retry(request) ?? false
 
-                    if retrySucceeded {
-                        strongSelf[request.task] = request
+                    if retrySucceeded, let task = request.task {
+                        strongSelf[task] = request
                         return
                     } else {
                         completeTask(session, task, error)
