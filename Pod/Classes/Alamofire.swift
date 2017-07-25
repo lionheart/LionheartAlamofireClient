@@ -51,6 +51,7 @@ public enum AlamofireRequestParameter: ExpressibleByDictionaryLiteral {
     case body(String)
     case urlParameters(JSONDictionary)
     case contentType(String)
+    case header(name: String, value: String)
     case authentication(AlamofireAuthentication)
 
     public init(dictionaryLiteral elements: (Key, Value)...) {
@@ -72,34 +73,34 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     public typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     public typealias UnicodeScalarLiteralType = StringLiteralType
 
-    case post(T)
-    case get(T)
-    case patch(T)
-    case head(T)
-    case put(T)
-    case delete(T)
+    case POST(T)
+    case GET(T)
+    case PATCH(T)
+    case HEAD(T)
+    case PUT(T)
+    case DELETE(T)
 
     indirect case pattern(AlamofireRouter, [String])
     indirect case methodWithRequestParameters(AlamofireRouter, [AlamofireRequestParameter])
 
     var endpoint: T {
         switch self {
-        case .post(let endpoint):
+        case .POST(let endpoint):
             return endpoint
 
-        case .get(let endpoint):
+        case .GET(let endpoint):
             return endpoint
 
-        case .patch(let endpoint):
+        case .PATCH(let endpoint):
             return endpoint
 
-        case .head(let endpoint):
+        case .HEAD(let endpoint):
             return endpoint
 
-        case .put(let endpoint):
+        case .PUT(let endpoint):
             return endpoint
 
-        case .delete(let endpoint):
+        case .DELETE(let endpoint):
             return endpoint
 
         case .methodWithRequestParameters(let method, _):
@@ -118,8 +119,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
                 if character == Character("?") {
                     let value = parameters.removeFirst()
                     path += String(value)
-                }
-                else {
+                } else {
                     character.write(to: &path)
                 }
             }
@@ -130,6 +130,26 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
 
         default:
             return endpoint.rawValue
+        }
+    }
+
+    var headers: [String: String] {
+        var response: [String: String] = [:]
+        switch self {
+        case .methodWithRequestParameters(let router, let requestParameters):
+            for parameter in requestParameters {
+                if case .header(let name, let value) = parameter {
+                    response[name] = value
+                }
+            }
+
+            return [:]
+
+        case .pattern(let router, _):
+            return router.headers
+
+        default:
+            return [:]
         }
     }
 
@@ -154,22 +174,22 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
 
     var HTTPMethod: String {
         switch self {
-        case .post:
+        case .POST:
             return "POST"
 
-        case .get:
+        case .GET:
             return "GET"
 
-        case .patch:
+        case .PATCH:
             return "PATCH"
 
-        case .head:
+        case .HEAD:
             return "HEAD"
 
-        case .put:
+        case .PUT:
             return "PUT"
 
-        case .delete:
+        case .DELETE:
             return "DELETE"
 
         case .methodWithRequestParameters(let router, _):
@@ -280,6 +300,10 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
         request.httpMethod = HTTPMethod
         request.setValue(contentType, forHTTPHeaderField: "Content-Type")
 
+        for (key, value) in headers {
+            request.setValue(value, forHTTPHeaderField: key)
+        }
+
         switch authentication {
         case .basic(let username, let password):
             var base64Credentials: String!
@@ -307,7 +331,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     }
 
     init(_ stringValue: String) {
-        self = .get(T(rawValue: stringValue)!)
+        self = .GET(T(rawValue: stringValue)!)
     }
 
     public init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
@@ -329,6 +353,10 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     }
 
     public func with(_ parameters: AlamofireRequestParameter...) -> AlamofireRouter {
+        return with(parameters: parameters)
+    }
+
+    public func with(parameters: [AlamofireRequestParameter]) -> AlamofireRouter {
         if case AlamofireRouter.methodWithRequestParameters(let router, var requestParameters) = self {
             requestParameters.append(contentsOf: parameters)
             return AlamofireRouter.methodWithRequestParameters(router, requestParameters)
