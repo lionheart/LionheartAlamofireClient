@@ -13,11 +13,11 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 
 ## Installation
 
-LionheartAlamofireExtensions is available through [CocoaPods](http://cocoapods.org). To install
+LionheartAlamofireClient is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "LionheartAlamofireExtensions"
+pod "LionheartAlamofireClient"
 ```
 
 ## Author
@@ -26,4 +26,4 @@ Dan Loewenherz, dan@lionheartsw.com.
 
 ## License
 
-LionheartAlamofireExtensions is available under the MIT license. See the LICENSE file for more info.
+LionheartAlamofireClient is available under the MIT license. See the LICENSE file for more info.
