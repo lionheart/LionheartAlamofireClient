@@ -1,9 +1,9 @@
-# LionheartAlamofireExtensions
+# LionheartAlamofireClient
 
-[![CI Status](http://img.shields.io/travis/lionheart/LionheartAlamofireExtensions.svg?style=flat)](https://travis-ci.org/lionheart/LionheartAlamofireExtensions)
-[![Version](https://img.shields.io/cocoapods/v/LionheartAlamofireExtensions.svg?style=flat)](http://cocoapods.org/pods/LionheartAlamofireExtensions)
-[![License](https://img.shields.io/cocoapods/l/LionheartAlamofireExtensions.svg?style=flat)](http://cocoapods.org/pods/LionheartAlamofireExtensions)
-[![Platform](https://img.shields.io/cocoapods/p/LionheartAlamofireExtensions.svg?style=flat)](http://cocoapods.org/pods/LionheartAlamofireExtensions)
+[![CI Status](http://img.shields.io/travis/lionheart/LionheartAlamofireClient.svg?style=flat)](https://travis-ci.org/lionheart/LionheartAlamofireClient)
+[![Version](https://img.shields.io/cocoapods/v/LionheartAlamofireClient.svg?style=flat)](http://cocoapods.org/pods/LionheartAlamofireClient)
+[![License](https://img.shields.io/cocoapods/l/LionheartAlamofireClient.svg?style=flat)](http://cocoapods.org/pods/LionheartAlamofireClient)
+[![Platform](https://img.shields.io/cocoapods/p/LionheartAlamofireClient.svg?style=flat)](http://cocoapods.org/pods/LionheartAlamofireClient)
 
 ## Usage
 
