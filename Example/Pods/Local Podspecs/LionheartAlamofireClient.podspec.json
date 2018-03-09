@@ -1,8 +1,8 @@
 {
   "name": "LionheartAlamofireClient",
-  "version": "1.4.0",
+  "version": "2.2.1",
   "summary": "A simple class that helps manage interaction with remote APIs using Alamofire.",
-  "description": "A simple class that helps manage interaction with remote APIs using Alamofire.",
+  "description": "This is a simple class that helps manage interaction with remote APIs using Alamofire.",
   "homepage": "https://github.com/lionheart/LionheartAlamofireClient",
   "license": "Apache 2.0",
   "authors": {
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/lionheart/LionheartAlamofireClient.git",
-    "tag": "1.4.0"
+    "tag": "2.2.1"
   },
   "social_media_url": "https://twitter.com/dwlz",
   "platforms": {
