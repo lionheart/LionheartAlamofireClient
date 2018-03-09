@@ -17,7 +17,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
-  LionheartAlamofireClient: 3c4014871a2d55878685c44fc1d9d0dfd82274be
+  LionheartAlamofireClient: 0d9f8310e5a31fc22752e6ba5fb2e90e695830ad
   Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
   Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
 
