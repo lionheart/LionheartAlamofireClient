@@ -115,7 +115,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
         switch self {
         case .pattern(_, var parameters):
             var path = ""
-            for character in endpoint.rawValue.characters {
+            for character in endpoint.rawValue {
                 if character == Character("?") {
                     let value = parameters.removeFirst()
                     path += String(value)
@@ -136,7 +136,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     var headers: [String: String] {
         var response: [String: String] = [:]
         switch self {
-        case .methodWithRequestParameters(let router, let requestParameters):
+        case .methodWithRequestParameters(let _, let requestParameters):
             for parameter in requestParameters {
                 if case .header(let name, let value) = parameter {
                     response[name] = value
