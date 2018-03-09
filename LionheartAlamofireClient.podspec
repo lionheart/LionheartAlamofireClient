@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.name             = "LionheartAlamofireClient"
   s.version          = "2.2.0"
   s.summary          = "A simple class that helps manage interaction with remote APIs using Alamofire."
-  s.description      = "A simple class that helps manage interaction with remote APIs using Alamofire."
+  s.description      = "This is a simple class that helps manage interaction with remote APIs using Alamofire."
   s.homepage         = "https://github.com/lionheart/LionheartAlamofireClient"
   s.license          = 'Apache 2.0'
   s.author           = { "Dan Loewenherz" => "dan@lionheartsw.com" }
