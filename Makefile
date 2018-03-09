@@ -56,4 +56,3 @@ tag: quicklint generate_docs
 publish: tag
 	bundle exec pod trunk push
 
-
