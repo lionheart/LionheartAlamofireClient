@@ -1289,6 +1289,39 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1F81A75A7CFBB2960B2218B1617D9AE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A3852FE6EB7947460515BF9A8386D77 /* LionheartAlamofireClient.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LionheartAlamofireClient/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient.modulemap";
+				PRODUCT_NAME = LionheartAlamofireClient;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		42642BC2090C1F01FA133D0BAD557484 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 29BD0904637F694242C3F97E4887B34B /* Nimble.xcconfig */;
@@ -1415,6 +1448,38 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		82F34208B31110064FACD7A1C05DF7FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A3852FE6EB7947460515BF9A8386D77 /* LionheartAlamofireClient.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LionheartAlamofireClient/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient.modulemap";
+				PRODUCT_NAME = LionheartAlamofireClient;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		8EF8561CBB6C47746E51E2E7C7E00256 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1739,69 +1804,6 @@
 			};
 			name = Release;
 		};
-		B96C5664BAA032F45C624E804EA8C456 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A3852FE6EB7947460515BF9A8386D77 /* LionheartAlamofireClient.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LionheartAlamofireClient/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient.modulemap";
-				PRODUCT_NAME = LionheartAlamofireClient;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		E0AE8378E7222990FD6D315DE09A3B0D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0A3852FE6EB7947460515BF9A8386D77 /* LionheartAlamofireClient.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LionheartAlamofireClient/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/LionheartAlamofireClient/LionheartAlamofireClient.modulemap";
-				PRODUCT_NAME = LionheartAlamofireClient;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1862,8 +1864,8 @@
 		7D8C0A004BA88007381E0C1A1A69B04E /* Build configuration list for PBXNativeTarget "LionheartAlamofireClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B96C5664BAA032F45C624E804EA8C456 /* Debug */,
-				E0AE8378E7222990FD6D315DE09A3B0D /* Release */,
+				82F34208B31110064FACD7A1C05DF7FE /* Debug */,
+				1F81A75A7CFBB2960B2218B1617D9AE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
