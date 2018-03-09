@@ -1,9 +1,9 @@
 PODS:
-  - Alamofire (4.0.1)
-  - LionheartAlamofireClient (1.4.0):
+  - Alamofire (4.7.0)
+  - LionheartAlamofireClient (2.2.1):
     - Alamofire
-  - Nimble (5.1.0)
-  - Quick (0.10.0)
+  - Nimble (7.0.3)
+  - Quick (1.2.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -13,14 +13,14 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   LionheartAlamofireClient:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
-  Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
-  LionheartAlamofireClient: 7c2b973e842dcbb3b11cf6a4d4c6b82ee96cd781
-  Nimble: 5ea121a2eda60440287054cde077fc0ad22227b3
-  Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
+  Alamofire: 907e0a98eb68cdb7f9d1f541a563d6ac5dc77b25
+  LionheartAlamofireClient: 3c4014871a2d55878685c44fc1d9d0dfd82274be
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
+  Quick: 58d203b1c5e27fff7229c4c1ae445ad7069a7a08
 
-PODFILE CHECKSUM: df70c95f2e7b0e3d70c6da9146616bc6a8a02bd9
+PODFILE CHECKSUM: 3cb29188235b920090933d82054e2e4b2ec2625a
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.4.0
