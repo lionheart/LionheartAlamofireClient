@@ -136,7 +136,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
     var headers: [String: String] {
         var response: [String: String] = [:]
         switch self {
-        case .methodWithRequestParameters(let _, let requestParameters):
+        case .methodWithRequestParameters(_, let requestParameters):
             for parameter in requestParameters {
                 if case .header(let name, let value) = parameter {
                     response[name] = value
