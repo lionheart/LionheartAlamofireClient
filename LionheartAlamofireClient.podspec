@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   s.platform         = :ios, '10.3'
   s.requires_arc     = true
   s.source_files     = 'Pod/Classes/**/*'
-  s.swift_version    = "4.0"
+  s.swift_version    = "4.2"
 
   s.dependency 'Alamofire'
 end
