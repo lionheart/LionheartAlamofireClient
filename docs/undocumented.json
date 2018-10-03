@@ -226,63 +226,63 @@
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 325,
+      "line": 324,
       "symbol": "AlamofireRouter.urlString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 351,
+      "line": 350,
       "symbol": "AlamofireRouter.with(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 355,
+      "line": 354,
       "symbol": "AlamofireRouter.with(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 359,
+      "line": 358,
       "symbol": "AlamofireRouter.with(parameters:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 393,
+      "line": 392,
       "symbol": "AlamofireClient",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 394,
+      "line": 393,
       "symbol": "AlamofireClient.Router",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 396,
+      "line": 395,
       "symbol": "AlamofireClient.theManager",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 404,
+      "line": 403,
       "symbol": "AlamofireClient.upload(_:multipartFormData:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 408,
+      "line": 407,
       "symbol": "AlamofireClient.request(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
