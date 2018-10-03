@@ -1,8 +1,9 @@
-023b66af4bfa5c214c33b8403f320d5d filelist-md5
-023b66af4bfa5c214c33b8403f320d5d filelist-remote-md5
 07a5d5877a8574a15543c0bc5c1c6de5 js/lunr.min.js
 0aec5e490ceebbd819e89e49bdc2fa44 css/highlight.css
 14abb23194fb09b2cdeeb113cae0d092 Protocols/AlamofireEndpoint.html
+1b0e91f8b2286cb77edff90646012152 filelist-md5
+1b0e91f8b2286cb77edff90646012152 filelist-remote-md5
+1bc78a4102d5f99581e3883b2be644f2 docsets/LionheartAlamofireClient.tgz
 26b716565512b3746ff4f0a4728b2180 Classes/AlamofireClient.html
 274cd40a4315043a5c19909c68a88af1 undocumented.json
 2ab02ca5e790d31c1fd36e2ba0be5007 Enums/AlamofireAuthentication.html
@@ -20,7 +21,6 @@
 9dc34f1a745437f2f58eb78a46143954 filelist
 9dc34f1a745437f2f58eb78a46143954 filelist-local
 9dc34f1a745437f2f58eb78a46143954 filelist-remote
-a203dfce569fb97dc3234117084ea54d docsets/LionheartAlamofireClient.tgz
 a3f192921f1cb55aba4a7543c8d3dfa8 js/jazzy.js
 a4db3ab55da4f235b0fbaa5aa462af7a Enums.html
 a7c24d3f560578b64a906de517156e58 Typealiases.html
