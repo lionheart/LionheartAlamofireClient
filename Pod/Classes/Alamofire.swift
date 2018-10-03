@@ -306,10 +306,9 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
 
         switch authentication {
         case .basic(let username, let password):
-            var base64Credentials: String!
             // MARK: TODO. Add back dispatch_once
             let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8)!
-            base64Credentials = credentialData.base64EncodedString(options: [])
+            var base64Credentials = credentialData.base64EncodedString(options: [])
             request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
 
         case .bearer(let token):
@@ -393,7 +392,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
 open class AlamofireClient<T: AlamofireEndpoint> where T.RawValue == String {
     public typealias Router = AlamofireRouter<T>
 
-    open static var theManager: SessionManager {
+    public static var theManager: SessionManager {
         if let Manager = T.CustomManager {
             return Manager.sharedManager
         } else {
@@ -401,11 +400,11 @@ open class AlamofireClient<T: AlamofireEndpoint> where T.RawValue == String {
         }
     }
 
-    open static func upload(_ URLRequest: Router, multipartFormData: @escaping (MultipartFormData) -> Void, completion: @escaping (SessionManager.MultipartFormDataEncodingResult) -> Void) -> Void {
+    public static func upload(_ URLRequest: Router, multipartFormData: @escaping (MultipartFormData) -> Void, completion: @escaping (SessionManager.MultipartFormDataEncodingResult) -> Void) -> Void {
         theManager.upload(multipartFormData: multipartFormData, with: URLRequest, encodingCompletion: completion)
     }
 
-    open static func request(_ URLRequest: Router) -> DataRequest {
+    public static func request(_ URLRequest: Router) -> DataRequest {
         return theManager.request(URLRequest)
     }
 }
