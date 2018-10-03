@@ -308,7 +308,7 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
         case .basic(let username, let password):
             // MARK: TODO. Add back dispatch_once
             let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8)!
-            var base64Credentials = credentialData.base64EncodedString(options: [])
+            let base64Credentials = credentialData.base64EncodedString(options: [])
             request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
 
         case .bearer(let token):
