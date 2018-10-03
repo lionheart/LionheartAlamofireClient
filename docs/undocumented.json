@@ -45,244 +45,251 @@
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
       "line": 30,
+      "symbol": "AlamofireAuthentication.headers(_:)",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
+      "line": 31,
       "symbol": "AlamofireAuthentication.none",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 33,
+      "line": 34,
       "symbol": "AlamofireManagerSingleton",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 34,
+      "line": 35,
       "symbol": "AlamofireManagerSingleton.sharedManager",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 37,
+      "line": 38,
       "symbol": "AlamofireEndpoint",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 38,
+      "line": 39,
       "symbol": "AlamofireEndpoint.RawValue",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 39,
+      "line": 40,
       "symbol": "AlamofireEndpoint.BaseURL",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 40,
+      "line": 41,
       "symbol": "AlamofireEndpoint.DefaultContentType",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 41,
+      "line": 42,
       "symbol": "AlamofireEndpoint.CustomManager",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 42,
+      "line": 43,
       "symbol": "AlamofireEndpoint.Authentication",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 45,
+      "line": 46,
       "symbol": "AlamofireRequestParameter",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 49,
+      "line": 50,
       "symbol": "AlamofireRequestParameter.json(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 50,
+      "line": 51,
       "symbol": "AlamofireRequestParameter.file(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 51,
+      "line": 52,
       "symbol": "AlamofireRequestParameter.body(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 52,
+      "line": 53,
       "symbol": "AlamofireRequestParameter.urlParameters(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 53,
+      "line": 54,
       "symbol": "AlamofireRequestParameter.contentType(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 54,
+      "line": 55,
       "symbol": "AlamofireRequestParameter.header(name:value:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 55,
+      "line": 56,
       "symbol": "AlamofireRequestParameter.authentication(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 72,
+      "line": 73,
       "symbol": "AlamofireRouter",
       "symbol_kind": "source.lang.swift.decl.enum",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 76,
+      "line": 77,
       "symbol": "AlamofireRouter.POST(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 77,
+      "line": 78,
       "symbol": "AlamofireRouter.GET(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 78,
+      "line": 79,
       "symbol": "AlamofireRouter.PATCH(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 79,
+      "line": 80,
       "symbol": "AlamofireRouter.HEAD(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 80,
+      "line": 81,
       "symbol": "AlamofireRouter.PUT(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 81,
+      "line": 82,
       "symbol": "AlamofireRouter.DELETE(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 83,
+      "line": 84,
       "symbol": "AlamofireRouter.pattern(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 84,
+      "line": 85,
       "symbol": "AlamofireRouter.methodWithRequestParameters(_:_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 324,
+      "line": 330,
       "symbol": "AlamofireRouter.urlString",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 350,
+      "line": 356,
       "symbol": "AlamofireRouter.with(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 354,
+      "line": 360,
       "symbol": "AlamofireRouter.with(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 358,
+      "line": 364,
       "symbol": "AlamofireRouter.with(parameters:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 392,
+      "line": 398,
       "symbol": "AlamofireClient",
       "symbol_kind": "source.lang.swift.decl.class",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 393,
+      "line": 399,
       "symbol": "AlamofireClient.Router",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 395,
+      "line": 401,
       "symbol": "AlamofireClient.theManager",
       "symbol_kind": "source.lang.swift.decl.var.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 403,
+      "line": 409,
       "symbol": "AlamofireClient.upload(_:multipartFormData:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/dan/Projects/LionheartAlamofireClient/Pod/Classes/Alamofire.swift",
-      "line": 407,
+      "line": 413,
       "symbol": "AlamofireClient.request(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
