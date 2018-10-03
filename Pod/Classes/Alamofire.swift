@@ -27,6 +27,7 @@ public typealias JSONDictionary = [String: Any]
 public enum AlamofireAuthentication {
     case basic(String, String)
     case bearer(String)
+    case headers([(name: String, value: String)])
     case none
 }
 
@@ -310,6 +311,11 @@ public enum AlamofireRouter<T: AlamofireEndpoint>: URLRequestConvertible, Expres
             let credentialData = "\(username):\(password)".data(using: String.Encoding.utf8)!
             let base64Credentials = credentialData.base64EncodedString(options: [])
             request.setValue("Basic \(base64Credentials)", forHTTPHeaderField: "Authorization")
+            
+        case .headers(let headers):
+            for header in headers {
+                request.setValue(header.value, forHTTPHeaderField: header.name)
+            }
 
         case .bearer(let token):
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
